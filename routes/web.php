@@ -23,11 +23,20 @@ Route::middleware(['auth'])->group(function () {
         // Amin routes
         Route::resource('admin', 'Admin\AdminController');
         Route::resource('roles', 'Admin\RoleController');
-        Route::resource('categories', 'Admin\CategoryController');
+//        Route::resource('categories', 'Admin\CategoryController');
         Route::resource('users', 'Admin\UserController');
         Route::resource('settings', 'Admin\SettingController');
-
+        Route::resource('exchanges', 'Admin\ExchangeController');
+        Route::resource('signals', 'Admin\SignalController');
     });
     // Default
     Route::get('/home', 'HomeController@index')->name('home');
+});
+
+Route::get('test', function () {
+    $signal = \App\Models\Signal::find(1);
+//    return $signal;
+    return  new \App\Http\Resources\SignalResource($signal);
+    event(new \App\Events\SignalSent($signal));
+    return "Event has been sent!";
 });

@@ -224,21 +224,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                     @endif
-                    @if ((Auth::user()->isAdmin() && Auth::user()->can('Category')) || Auth::user()->isSuperAdmin() )
+                    @if ((Auth::user()->isAdmin() && Auth::user()->can('Exchange')) || Auth::user()->isSuperAdmin() )
                         <li class="nav-item has-treeview ">
-                            <a href="#" class="nav-link @yield('Categories')">
+                            <a href="#" class="nav-link @yield('Exchanges')">
                                 <i class="fas fa-clipboard-list"></i>
                                 <p>
-                                    Categories
+                                    Exchanges
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{route('categories.index')}}" class="nav-link @yield('Category')">
-                                            <p>Category list</p>
+                                        <a href="{{route('exchanges.index')}}" class="nav-link @yield('Exchange')">
+                                            <p>Exchange list</p>
                                         </a>
                                     </li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if ((Auth::user()->isAdmin() && Auth::user()->can('Signal')) || Auth::user()->isSuperAdmin() )
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Signals')">
+                                <i class="fas fa-wave-square"></i>
+                                <p>
+                                    Signals
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('signals.index')}}" class="nav-link @yield('Signal')">
+                                        <p>Signal list</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endif
