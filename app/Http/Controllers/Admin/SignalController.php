@@ -38,6 +38,7 @@ class SignalController extends Controller
         $signal_types = SignalType::all();
         $results = Result::all();
         $commands = Command::all();
+//        return $signals;
         return view('admin.signals.index',compact('signals','exchanges','signal_types','results','commands'));
     }
 

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 class AuthController extends Controller
 {
@@ -13,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
     /**
@@ -24,22 +27,26 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        return response()->json([
+            'data' =>[
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]
+        ]);
     }
 
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return UserResource
      */
     public function me()
     {
-        return response()->json(auth('api')->user());
+        return new UserResource(auth('api')->user());
     }
 
     /**
@@ -61,9 +68,36 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+//        return $this->respondWithToken(auth('api')->refresh());
+        return response()->json([
+            'data' =>[
+                'access_token' => auth('api')->refresh(),
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]
+        ]);
     }
 
+
+    public function update(Request $request)
+    {
+        $profile = null;
+        if($request->profile)
+        {
+            $profile = upload_file($request->profile);
+        }
+        auth('api')->user()->update([
+            'profile' => $profile ?? auth('api')->user()->profile,
+            'name' => $request->name ?? auth('api')->user()->name
+        ]);
+        return response()->json(['message' => 'Profile updated successfully!']);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $user = User::create($request->validated());
+        return new UserResource($user);
+    }
     /**
      * Get the token array structure.
      *

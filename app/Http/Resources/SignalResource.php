@@ -29,14 +29,14 @@ class SignalResource extends JsonResource
                 'title' => $this->signal_type->title,
                 'color' => $this->signal_type->color
             ],
-            'command' => [
+            'command' => ($this->command) ? [
                 'title' => $this->command->title,
                 'color' => $this->command->color
-            ],
-            'result' => [
+            ] : null ,
+            'result' =>($this->result) ? [
                 'title' => $this->result->title,
                 'color' => $this->result->title
-            ]
+            ] : null
         ];
     }
 }

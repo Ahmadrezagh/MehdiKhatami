@@ -10,7 +10,6 @@
     Signals
 @endsection
 @section('content')
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -107,13 +106,13 @@
                                 <tr>
                                     <td class="text-center row">
                                         <div class="col-auto">
-                                            <img src="{{URL::to('/').$signal->left_flag->src}}" alt="" width="25px">{{$signal->left_flag->name}}
+                                            <img src="{{URL::to('/').$signal->exchange->left_flag->src}}" alt="" width="25px">{{$signal->exchange->left_flag->name}}
                                         </div>
                                         <div class="col-auto">
                                             <h5>/</h5>
                                         </div>
                                         <div class="col-auto">
-                                            <img src="{{URL::to('/').$signal->right_flag->src}}" alt="" width="25px">{{$signal->right_flag->name}}
+                                            <img src="{{URL::to('/').$signal->exchange->right_flag->src}}" alt="" width="25px">{{$signal->exchange->right_flag->name}}
                                         </div>
                                     </td>
                                     <td class="text-center">

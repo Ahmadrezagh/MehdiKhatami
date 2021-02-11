@@ -93,6 +93,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->profile ?? '/uploads/profiles/default/user.png';
     }
 
+    public function getProfileAttribute()
+    {
+        return $this->profile ?? '/uploads/profiles/default/user.png';
+    }
     // Rest omitted for brevity
 
     /**
